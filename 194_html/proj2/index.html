@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/proj3/cs194-26-ach/ -->
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<html class="gr__inst_eecs_berkeley_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    </head><body data-gr-c-s-loaded="true" class="vsc-initialized"><center>
+        <h1>Project 2: Camera Obscura</h1>
+        <h3>Leon Liang and Jeffrey Zhang</h3>
+    </center>
+
+
+
+    <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+            A pinhole camera is a lensless camera that allows light to pass through a small hole, which creates an image on the other side. The small hole only allows a few photons to pass through, creating a clearer image.
+             </p><table align="center" style="width: 75%;">
+            <tbody><tr>
+                <th><img src="./index_files/pinhole.gif" height="400px"></th>
+            </tr>
+            <tr style="text-align: center;">
+              <th>Source: http://myworldweb.com/?p=218</th>
+            </tr>
+        </tbody></table>
+        <p></p>
+    </section>
+    <section>
+        <h2>Pinhole Camera Setup</h2>
+        <hr>
+        <h3>Box Setup</h3>
+        <p>
+            Originally, we began by creating a box setup to work with a phone camera. However, after taking several pictures, we could not get a bright enough image. Thus, we decided to borrow a dslr camera to capture the images in our pinhole camera.
+        </p>
+        <p>
+            We used a 11'' by 8-1/2'' by 5-1/2'' box and lined one face inside the box with several sheets of white paper. This will be our image projection side. 
+
+            We lined the remaining faces inside the box with black paper to prevent any reflection of light, which would blur our image. The box was thoroughly taped with black electrical tape (inside and out) to prevent any light leakage.
+        </p>
+
+        <table align="center" style="width: 75%;">
+            <tbody><tr>
+                <th><img src="./index_files/2.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/4.jpg" style="width: 100%;"></th>
+            </tr>
+            <tr style="text-align: center;">
+              <th>Box interior</th>
+              <th>Another view of the interior</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/1.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/3.jpg" style="width: 100%;"></th>
+            </tr>
+            <tr style="text-align: center;">
+              <th>Pinhole and camera hole</th>
+              <th>Final setup</th>
+            </tr>
+        </tbody></table>
+
+        <h3>Pinholes</h3>
+        <p>
+        We created slides of aluminum with differing pinhole sizes. Pinhole diameter sizes of 0.1mm, 3mm, and 5mm are shown below: 
+        </p>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/1(1).jpg" height="400px"></th>
+            </tr>
+            <tr style="text-align: center;">
+                <th>Pinholes</th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Results/Aperture Sizes</h2>
+        <hr>
+        <p>
+            Here are a few comparisons of how the different pin hole sizes
+            performed under 3200 iso and 30 second exposure time:
+        </p>
+        <table align="center" style="width: auto;">
+
+            <tbody><tr>
+                <th><img src="./index_files/Mug01.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/Mug3.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/Mug5.jpg" style="width: 100%;"></th>
+            </tr>
+            <tr style="text-align: center;">
+                <th>0.1mm</th>
+                <th>3mm</th>
+                <th>5mm </th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/plant01.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/plant3.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/plant5.jpg" style="width: 100%;"></th>
+            </tr>
+            <tr style="text-align: center;">
+                <th>0.1mm</th>
+                <th>3mm</th>
+                <th>5mm </th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Additional Images</h2>
+        <hr>
+        <p>
+            From the images above, it's clear that the 0.1 mm aperature size gave us the sharpest image. Here are 4 additional images taken using the 0.1 mm aperature.
+            </p><table align="center" style="width: auto;">
+                <tbody><tr>
+                    <th><img src="./index_files/Additional1.jpg" style="width: 100%;"></th>
+                    <th><img src="./index_files/Additional2.jpg" style="width: 100%;"></th>
+                    <th><img src="./index_files/Additional3.jpg" style="width: 100%;"></th>
+                    <th><img src="./index_files/Additional4.jpg" style="width: 100%;"></th>
+                </tr>
+            </tbody></table>
+        <p></p>
+
+        <p>
+            Originally, we began by using black construction paper to create our pinholes. Shown below are some of the images taken with this pinhole:
+         </p><table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/red.jpg" height="300px"></th>
+                <th><img src="./index_files/red2.jpg" height="300px"></th>
+            </tr>
+        </tbody></table>
+            It turns out the black paper was not thick enough and allowed some red light to pass through. Instead, we used aluminum foil for our pinhole slides, which was able to completely block out excess light and create clearer images.
+        <p></p>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/flashlight.jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/flashlightred.jpg" style="width: 100%;"></th>
+            </tr>
+            <tr style="text-align: center;">
+                <th>Flashlight</th>
+                <th>Flashlight with a square of black construction paper covering it</th>
+            </tr>
+        </tbody></table>
+
+    </section>
+
+    <section>
+        <h2>Bells and Whistles</h2>
+        <hr>
+        <h3>Light Painting with long exposure times</h3>
+        <p>
+            Here are some fun images we made using long exposure times!
+        </p>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/Cal 2.jpg" height="300px"></th>
+                <th><img src="./index_files/Camera.jpg" height="300px"></th>
+                <th><img src="./index_files/Light.jpg" height="300px"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/Random.jpg" height="300px"></th>
+                <th><img src="./index_files/Trees.jpg" height="300px"></th>
+            </tr>
+        </tbody></table>
+        <br>
+        <h3>Stereo pinhole camera</h3>
+        <p>
+            We created a stereo image by creating two pinholes and taking separate pictures with each. Merging the two images, we get a 3d effect as shown below!
+        </p>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/stereo.gif" height="600px"></th>
+            </tr>
+            <tr style="text-align: center;">
+              <th>anaglyph image</th>
+            </tr>
+        </tbody></table>
+        <br>
+    </section>
+
+
+
+<span id="sbmarwbthv5"></span></body></html>

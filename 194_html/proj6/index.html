@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/proj3/cs194-26-ach/ -->
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<html class="gr__inst_eecs_berkeley_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style>
+    p    {font-size: 125%;}
+    h1    {font-size: 200%;}
+    h2    {font-size: 175%;}
+    h3    {font-size: 150%;}
+</style>
+  
+    </head><body style="padding-left: 5%; width: 90%; background-color: #EEE;" data-gr-c-s-loaded="true" class="vsc-initialized"><center>
+        <h1>Project 6: Lightfield Camera</h1>
+        <h3>Jeffrey Zhang</h3>
+        <h4>CS194-26 | Professor A. Efros</h4>
+    </center>
+
+
+
+    <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+          In this project, I will implement concepts from Ng's <a href="http://graphics.stanford.edu/papers/lfcamera/lfcamera-150dpi.pdf">paper</a> on light fields. I will take images from Stanford's <a href="http://lightfield.stanford.edu/lfs.html">Light Field Archive</a> that contain pictures of different objects taken from a grid of 17x17 cameras, giving us 289 different views of an object. Using some basic image shifts and averaging, we are able to produce varying depth refocusing and aperature size effects.
+        </p>
+    </section>
+
+    <section>
+        <h2>Depth Refocusing</h2>
+        <hr>
+        <p>
+          To focus an image at different depths, we align each image such that the rays of light in each image align for a particular focus point. The images provided by stanford provide us with the coordinates of the subaperature view (position of camera) (u,v). For each image in our 17x17 grid, we subtract the average subaperature (u',v'). To alter the focus of the images, we translate each image by (alpha*(u-u'), alpha*(v-v')) for some range of alphas. For the chessboard image, I found that alpha works best from [-0.2, 0.7] (the image below is the result).
+        </p>
+        <p>
+          Initially, the above implementation takes a considerable amount of time (around 2 minutes) to align 289 images and combine them into a single image. However, given that we want to test the effect on a range of depths, 2 minutes per image is unreasonable. To speed this up, I reduced the width and height of my images by half from 1400x800 to 700x400. Additionally, using python's threading library, I was able to split the computation among the 4 threads in my computer. Computing all 36 images at different depths now only takes 2 minutes.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/depth.gif" style="height: 450px;"></th>
+            </tr>
+            <tr>
+                <th>36 Images at Different Refocused Depths</th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Aperature Adjustment</h2>
+        <hr>
+        <p>
+          To capture the effect of adjusting aperature size, we simply change the images we average. Given a starting image, average the images r blocks away in the 17x17 grid. The larger radius of images averaged emulates a larger radius aperature, taking in more light, but losing focus on the peripherals. Conversely, the smaller radius of images averaged emulates a smaller radius aperature. At radius 0, we emulate a pinhole camera, which is focused at all parts of the image.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/aperature.gif" style="height: 450px;"></th>
+            </tr>
+            <tr>
+                <th>32 Images at Varying Aperature Sizes</th>
+            </tr>
+        </tbody></table>
+
+    </section>
+
+    <section>
+        <h2>Summary</h2>
+        <hr>
+        <p>
+          Given the data from a grid of images at different angles of an object, we can create really awesome effects with simple computations. Basic manipulation techniques such as image alignment and averaging can emulate the classic camera effects of changing focus and aperature sizes!
+        </p>
+    </section>
+
+    <section>
+    <h2>Bells and Whistles - Interactive Refocusing</h2>
+    <hr>
+        <p>
+            To make a refocusing interactive, I used python's matplotlib to generate a figure that you can click around to readjust the focus! The algorithm uses the same equation from above (alpha*(u-u'), alpha*(v-v')) to calculate the displacement for each image in the 17x17 grid. After some testing, I found that alpha values of [-0.1,1.1] most accurately maps a click on the image to the correct refocused depth. Below is a short video demo.
+        </p>
+    <center><div class="vsc-controller" data-vscid="o0rjdtavz"></div>
+        <video height="600" controls="" class="vsc-initialized" data-vscid="o0rjdtavz">
+            <source src="html_images/test3.mp4" type="video/mp4">
+        </video>
+    </center>
+    </section>
+
+
+
+<span id="sbmarwbthv5"></span></body></html>

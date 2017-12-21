@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/proj3/cs194-26-ach/ -->
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<html class="gr__inst_eecs_berkeley_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    </head><body style="padding-left: 5%; width: 90%; background-color: #EEE;" data-gr-c-s-loaded="true" class="vsc-initialized"><center>
+        <h1>Project 4: Seam Carving</h1>
+        <h3>Jeffrey Zhang</h3>
+    </center>
+
+
+
+    <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+          The concept of seam carving was introduced by Shai Avidan and Ariel Shamir in their <a href="https://inst.eecs.berkeley.edu/~cs194-26/fa16/hw/proj4-seamcarving/imret.pdf">paper</a>. Standard resizing techniques scale the image uniformly reducing the clarity and focus of important aspects of the image. The paper provides a novel way of resizing images by removing information least important to the image, allowing you to successfully resize the image while maintaining the focus and size of the content.
+        </p>
+    </section>
+
+    <section>
+        <h2>Seam Carving Approach/Algorithm</h2>
+        <hr>
+        <p>
+          The algorithm suggested by Avidan and Shamir uses the energy values of each pixel to determine its importance to the image as a whole. One way of determining the energy for each pixel is by taking the sum of the absolute values of the pixel's gradient in the x and y directions. This derivative is found by convolving a [[-1,0,1],[-2,0,2],[-1,0,1]] matrix to the image for the x-direction, and a [[-1,-2,-1],[0,0,0],[1,2,1]] matrix for the y-direction. This effectively gives more weight towards pixels that are stronger edges. Because edges often define important features of an image, removing pixels that are not edges are less likely to affect the defining contents of an image. For color images, the energy for each pixel is determined by its gradient in its grayscale image.
+        </p>
+        <p>
+          If we want to reduce the width of an image by one pixel dimension, we must remove one pixel from every row. To remove pixels in a more consistent and seamless fashion, Avidan and Shamir suggest finding a path from the top of the image to the bottom where the total energy of that path is minimized. This can be done very efficiently with dynamic programming. Initializing the energy weights for the top pixels, we can iterate through every pixel and use the above 3 pixels (or 2 if the pixel is on a border) to determine which path has the lowest total energy.
+        </p>
+        <center><img src="./index_files/dp1.JPG" style="height: 350px;"></center>
+        <p>
+         Once we have assigned a value to every pixel, we simply take the pixel with the lowest value on the bottom row and that defines our smallest path. To retrieve other pixels in the path, take the minimum of the above 3 pixels.
+         </p><center><img src="./index_files/dp2.JPG" style="height: 350px;"></center>
+         <center><p>Image courtesy of CS194-26 PPT slides</p></center>
+        <p></p>
+
+    </section>
+
+    <section>
+        <h2>Results</h2>
+        <hr>
+        <p> 
+          Here are some resulting seam-carved images vertically and horizontally! Note: For some images I only show seam carving in one direction. This is because the seam carving in the other direction was not particularly effective and will be detailed below under "Failures".
+        </p>
+        <h3> Building </h3> <h4><a href="http://covetedition.com/wp-content/uploads/2015/09/coveted-Top-Architects-Rem-Koolhaas-architecture.jpg">source</a></h4>
+        <p> We can see that the horizontally carved image effectively removed the gaps between the buildings in the background, but the general building itself was not modified much (as it has many strong edges that gives more weight to the pixels on the building). The Vertically carved image removes a bit off the tip of the building, but the overall structure of the building is unchanged.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig.png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor.png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert.png" style="width: 100%;" "=""></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Canyon </h3> <h4><a href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Grand_Canyon_NP-Arizona-USA.jpg/1920px-Grand_Canyon_NP-Arizona-USA.jpg">source</a></h4>
+        <p> The carving of the canyon turned out great! Because the mountains and the terrain have jagged edges in the first place, the carved seams blend in seamlessly with the image.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(1).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(1).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert(1).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Couch </h3> 
+        <p>The horizontally carved couch image does cause some distortion in the sidewalk, but it still seems to maintain the integrity of the couch image as well as the objects in the background. Note that because the cars and the scenary in the background have much more edges, the details in the background are relatively untouched in resizing.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(2).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(2).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+       <h3> House </h3> 
+       <p>The house seems to look okay after the carves. For horizontal carving, notice that the trees are still present, but have shrunk in size.
+        </p><table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(3).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(3).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert(2).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Modern-arch </h3> <h4><a href="https://usercontent1.hubstatic.com/3627666_f520.jpg">source</a></h4>
+        <p>The integrity of the modern architecture building is kept very well (due to the increase in edges in the structure. The path leading to the building seems to have gotten a bit distorted, but actually doesn't look too out of place and doesn't immediately catch your attention.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(4).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(4).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Mountain </h3> <h4><a href="https://s-media-cache-ak0.pinimg.com/originals/46/43/48/464348512a00ee611299a06c570a9c93.jpg">source</a></h4>
+        <p>The horizontal carve of the mountain seems to do pretty well. The vertical carve, on the otherhand, carved the tip of the mountain out of the picture, but does it in a seamless way that looks natural.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(5).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(5).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert(3).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Rocks </h3> <h4><a href="http://wallpapersonthe.net/wallpapers/b/1920x1080/1920x1080-misty_seas_beaches_rock_mist_sea-2722.jpg">source</a></h4>
+        <p>Probably one the most seamless and best looking carves out of the pictures I've tested. Similar to the canyon, the rocks in this picture already have jagged edges, which makes it hard to notice small irregularities in the paths that are carved out. Furthermore, the spaces between the rocks that are perfect areas to be carved out to compress the rocks together.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(6).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(6).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert(4).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+    </section>
+  
+  <section>
+    <h2>Failures</h2>
+        <hr>
+        <p> 
+          These images didn't work out so well. Explanation below each.
+        </p>
+
+        <h3> Couch </h3>
+        <p>As noted previously, the background of this image contains many distinct and strong edges, giving those pixels higher energies. Thus, the integrity of the background is almost perfectly maintained, but at the expense of distortion in the sidewalk. </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(2).png" style="width: 100%;"></th>
+                <th><img src="./index_files/vert(5).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Modern-arch </h3>
+        <p>The horizontally resized image of this picture did quite well, but it seems that the energy of a path of the pixels horizontally were not as high for the black levels of the building as they were vertically. This causes portions of the building to be carved out, distorting it completely. </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(4).png" style="width: 100%;"></th>
+                <th><img src="./index_files/vert(6).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Space </h3> <h4><a href="https://s-media-cache-ak0.pinimg.com/originals/8c/85/88/8c8588327becd50b6e4c335ea3f873a6.jpg">source</a></h4>
+          <p>Overall, the both resized image look fairly nice, however, you will notice the planet on the left is distorted in both images. This is because the black area around the center of the planet contains very little energy (not many edges) and was carved out. This created some distortion to the planet in both images.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(7).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(7).png" style="width: 100%;"></th>
+            </tr>
+             <tr>
+                <th><img src="./index_files/vert(7).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h3> Sybbie </h3>
+        <p> Final test with my dog Sybbie. In both cases, Sybbie underwent some drastic distortion. It seems that because there are areas of Sybbie's fur that is just black, using gradients as the energy function gave those areas much lower energy. Additionally, because the couch contains numerous high-frequency features and edges, the integrity of the couch was maintained much better than Sybbie. </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(8).png" style="width: 100%;"></th>
+                <th><img src="./index_files/hor(8).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/vert(8).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+    <h2>Bells and Whistles</h2>
+        <hr>
+        <h3>Image Enlargement</h3>
+        <p> 
+          The process of image enlargement is very similar to seam carving, but the process is reversed. Again, we define energies for each pixel and we run dynamic programming to determine the minimum cost path. Instead of removing this minimum cost path, we want to append this path to the image. However, if we were to find the minimum cost path of the original image, we would continually be adding the same path for every additional pixel length. Thus, instead, we remove any paths we already added to the image to enlarge the image using unique paths.
+        </p>
+
+        <h4> Rocks </h4>
+        <p>The fact that rocks did the best for seam carving seems to have translated for image enlargement as well. Again, the space between the rocks are perfect areas to enlarge the image without distorting the features of the rocks themselves. </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(9).png" style="width: 100%;"></th>
+                <th><img src="./index_files/vert(9).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/hor(9).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h4> House </h4>
+        <p>Here we have another example with the house. Note that with seam carving, the horizontally resized image created very skinny trees. In image enlargement, we see the exact opposite result as we add those paths into the image instead of removing them.</p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(10).png" style="width: 100%;"></th>
+                <th><img src="./index_files/vert(10).png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/hor(10).png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+
+        <h4> Sybbie </h4>
+        <p> One last example with one of my failed images. Because Sybbie didn't do too well in seam carving, adding those paths in for enlargement equally distorts Sybbie. Again, the integrity of the couch seems pretty well maintained. </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th><img src="./index_files/orig(11).png" style="height: 400px;"></th>
+                <th><img src="./index_files/vert(11).png" style="height: 600px;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/hor(11).png" style="height: 400px;"></th>
+            </tr>
+        </tbody></table>
+
+
+<!--         <h3>Varying Energy Functions</h3>
+        <p> 
+          There are many different energy functions. Below I compare images using different energy functions!
+        </p>
+
+        <h4> Couch </h4>
+        <table align="center" style="width: 95%;">
+            <tr>
+                <th><img src="html_images/couch/orig.png" style="height: 350px;"></th>
+            </tr>
+            <tr>
+                <th><img src="html_images/couch/vert.png" style="height: 200px;"></th>
+            </tr>
+        </table> -->
+    </section>
+    <section>
+    <h2>Things Learned</h2>
+    <p>I actually learned the importance of vectorizing code! Because we have to recalculate energy values after every seam carved, my code originally took a very long time to run. Upon vectorizing the dynamic programming code, each image now takes a few seconds to finish.</p>
+    </section>
+
+
+
+<span id="sbmarwbthv5"></span></body></html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/proj3/cs194-26-ach/ -->
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<html class="gr__inst_eecs_berkeley_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    </head><body style="padding-left: 5%; width: 90%; background-color: #EEE;" data-gr-c-s-loaded="true" class="vsc-initialized"><center>
+        <h1>Project 3: Fun with Frequencies!</h1>
+        <h3>Jeffrey Zhang</h3>
+    </center>
+
+
+
+<!--     <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+          overview text for frequencies
+        </p>
+    </section> -->
+
+    <section>
+        <h2>Part 0: Sharpening</h2>
+        <hr>
+        <h3>Approach</h3>
+        <p>
+            One way to sharpen images is to enhance the edges of an image. We can achieve this by taking low-pass filtering the image with a guassian filter and subtracting the low-passed image from the original images to get the edges. Adding these edges onto the original image will enhance the edges, sharpening the image.
+        </p>
+        <p>
+            For color images, I converted the rgb images into hsv images and applied this approach onto the V dimension of the image. I then converted the images back to rgb to display. Examples are shown below on Nutmeg the cat, and my dog Sybbie!
+        </p>
+
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/nutmeg.png" style="width: 100%;"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/sybbie.png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Part 1: Hybrid Images</h2>
+        <hr>
+        <h3>Background</h3>
+        <p>
+            Hybrid Images are images that embed two images into one. They change in interpretation as a function of the viewing distance. By embedding one image in the high-frequencies and another in the low-frequenices, we are able to view the notice different images depending on the distance from which we see them!
+        </p>
+        <table align="center" style="width: auto;">
+
+            <tbody><tr>
+                <th><img src="./index_files/Dali.jpg" height="350px"></th>
+            </tr>
+            <tr style="text-align: center;">
+                <th>Salvador Dali's famous Lincoln in Dalivision</th>
+            </tr>
+        </tbody></table>
+        <h3>Approach</h3>
+        <p>
+            We can create our own images by first aligning two images we want to combine (courtesy of cs194 staff for the code). We choose which image we want as our low-frequency image and the other as our high frequency image. The low-frequency image is created by gaussian blurring the image (gaussian_filter(img, sigma)), whereas the high-frequency image is created subtracting the original image with the gaussian blurred version of the image (img - gaussian_filter(img, sigma). 
+        </p>
+        <p>
+            For the combined image, I took the average of the two images and set all pixels &gt; 1 to 1 and all pixels &lt; 0 to 0. This is to prevent artifacts from appearing and corrects the darkness of the image. Here are three examples with sigma values for Guassian filtering below!
+        </p>
+        <div style="text-align: center;">
+            <h4>Derek and Nutmeg combined</h4>
+            <img src="./index_files/DerekCat.png" height="500px">
+            <img src="./index_files/DerekCatSmall.png" height="100px">
+            <p>I used Derek as my low-frequency image and Nutmeg as my high-frequency image. I aligned the images using their eyes. </p>
+            <p>Derek sigma = 8, Nutmeg sigma = 8</p>
+        </div>
+        <div style="text-align: center;">
+            <h4>Trump and Hillary combined</h4>
+            <img src="./index_files/Trillary.png" height="500px">
+            <img src="./index_files/TrillarySmall.png" height="100px">
+            <p>I used Trump as my low-frequency image and Hillary as my high-frequency image. I aligned the images using their eyes</p>
+            <p>Trump sigma = 18, Hillary sigma = 10</p>
+        </div>
+        <div style="text-align: center;">
+            <h4>Hawk and Fish combined</h4>
+            <img src="./index_files/HawkFish.png" height="350px">
+            <img src="./index_files/HawkFishSmall.png" height="100px">
+            <p>I used the hawk as my low-frequency image and the fish as my high-frequency image. I aligned the images using one eye and the end of the tails</p>
+            <p>Hawk sigma = 8, Fish sigma = 4</p>
+        </div>
+        <br>
+        <h3> Best Result/Frequency Analysis </h3>
+        <p>
+            My best result is definitly Trillary. Because both the head posture, skin color, and background of the images are visually similar, the low-frequency features of Trump became a good background layer for Hillary. We can see the mismatch between the low-frequency image and the high frequency image in both DerekCat and HawkFish. A FFT frequency analysis of Trillary is shown below.
+        </p>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/TrillaryBreakdown.png" width="95%"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/TrillaryFFT.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Part 2: Gaussian and Laplacian Stacks</h2>
+        <hr>
+        <p>
+            Below are Gaussian and Laplacian Stacks on three interesting images:
+        </p>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th>Lincoln in Dalivision</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/DaliGaussians.png" width="95%"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/DaliLaplace.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+        <br>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th>MonoLisa</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/MonolisaGaussians.png" width="95%"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/MonolisaLaplace.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+        <p> Notice in Laplace 2 and Laplace 3, MonoLisa appears to be smiling more compared to her original image. This smile is hidden in the high-frequencies!</p>
+        <br>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th>Trillary</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/TrillaryGaussians.png" width="95%"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/TrillaryLaplace.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+        <p> Here the Laplacian stack clearly shows the high-frequencies (Hillary) and after a gaussian filter of sigma = 16, we are able to extract some lower-frequencies (Trump). </p>
+    </section>
+    <section>
+        <h2>Part 3: Multiresolution Blending</h2>
+        <h3>Background</h3>
+        <p>
+            Combining two images together is quite simple. We can just crop out half of two images and place them together. However, we want to be able to create a seamless blending between two images. 
+        </p>
+        <h3>Approach</h3>
+        <p>
+            We create a masking layer to indicate the intensity of an image at each pixel. A standard masking layer looks like this:
+        </p>
+            <center>
+                <img src="./index_files/left.png">
+            </center>
+        <p>
+            At each frequency level (from high to low), we progressively increase the spread of the masking layer. This is to capture most of the high-frequency details of each image, but blend the low-frequency details for a smoother transition.  Shown below is the increasing blur of our masking layer.
+        </p>
+        <img src="./index_files/gaussianMasks.png" width="95%">
+        <p>
+            Like part 0, I will convert my images into hsv images and do my blending in the V space. After applying the masks to the laplacians of the images in the V space, I convert the images back to RGB and combine the filtered laplacian images together. Here are some multiresolution blended images!
+        </p>
+        <h4> Orapple </h4>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/apple.jpg" width="250px"></th>
+                <th><img src="./index_files/orange.jpg" width="250px"></th>
+                <th><img src="./index_files/orapple.png" width="350px"></th>
+            </tr>
+        </tbody></table>
+        <center>
+            <p> Orapple Laplacian Breakdown </p>
+        </center>
+        <table align="center" style="width: auto;">
+            <tbody><tr>
+                <th><img src="./index_files/appleLaplace.png" width="95%"></th>
+                <th><img src="./index_files/orangeLaplace.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+        <h4> Space City </h4>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th> City </th>
+                <th> Sky </th>
+                <th>Non Trivial Mask</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/cityBottom.jpg" width="95%"></th>
+                <th><img src="./index_files/cityTop.jpg" width="95%"></th>
+                <th><img src="./index_files/nontrivialMask.jpg" width="300px"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th>Space City</th>
+                
+            </tr>
+            <tr>
+                <th><img src="./index_files/SpaceCity.png" width="600px"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: auto;">
+            <tbody><tr style="text-align: center;">
+                <th>Space City Laplacian breakdown</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/topLaplace.png" width="95%"></th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/bottomLaplace.png" width="95%"></th>
+            </tr>
+        </tbody></table>
+        <p> The blending of the two images gives a nice hazzy/misty look to the image! However, I didn't want to blur the masks beyond sigma = 4; otherwise, the buildings will look blurred out.
+        <br>
+        </p><h3> Multiresolution Blending Failures </h3>
+        <center>
+            <img src="./index_files/cities.png" width="50%">
+        </center>
+        <p> Here the blended images have a very smooth edge, but because the texture of the clouds and colors of sky/water are noticeably different, there is a more apparent seam than some of the example images above. </p>
+        <br>
+        <center>
+            <img src="./index_files/appleLaplace(1).png">
+            <img src="./index_files/orangeLaplace(1).png">
+            <img src="./index_files/combinedLaplace.png">
+        </center>
+        <p> Here I tried using RGBA to blend two color images. The laplacians themselves looked fine, however, because the raw pixel values (RGB) in RGBA stay the same, I was a bit unsure how to combine the two images' pixel values. The resulting combined Laplacian image becomes a mess of colors.
+    </p></section>
+  
+
+
+
+<span id="sbmarwbthv5"></span></body></html>

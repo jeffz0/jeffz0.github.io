@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<center>
+    <h1>CS 194-26 Project 1: Images of the Russian Empire</h1>
+    <h2>Colorizing the Prokudin-Gorskii photo collection</h2>
+    <h3>Jeffrey Zhang</h3>
+</center>
+
+<center>
+    <div style="width: 50%;">
+        <h2>
+            Overview
+        </h2>
+        <p style="text-align: left;">
+            This goal of this project is to take the digitized Prokudin-Gorskii glass plate images and to use image processing techniques to produce an rgb image. The difficulty is in accurately aligning the images to produce as few visual artifacts as possible.
+        </p>
+        <h2>
+            Approach
+        </h2>
+        <p style="text-align: left;">
+            My approach is to set the blue image as my anchor image and align the red and green image accordingly. I use a Sum of Squared Differences (SSD) between two images as my measurement for alignment. By exhaustively displacing one image over the anchor image ([-15,15] pixels for both the x and y axis), I find the displacement with the smallest SSD to align the image to the anchor image. 
+        </p>
+        <p style="text-align: left;">
+            Additionally, I made two adjustments. 
+            <ul style="text-align: left;">
+                <li>First, before aligning images, I remove 7% off each side of the images to remove any borders that may cause alignment issues. This is due to borders being in slightly different locations between the 3 color spaces. </li>
+           
+                <li>Second, for comparisons, I use edges instead of raw pixels. Because the value of R, G, and B in an image can differ quite a bit, using the raw pixels as the input and finding the minimum difference does not necessarily give the most accurate result. Thus, I apply a Canny filter over the images before exhaustively overlaying the images. This filters out the edges of the image. Edges between the 3 color spaces are likely to be the same, thus giv a more accurate result. </li>
+            </ul>
+        </p>
+        <p style="text-align: left;">
+            Exhaustive search becomes too expensive when images are very large. Thus, I create an image pyramid by dividing the size of an image by factors of 2 (until an image has size smaller 300x300). Starting with an exhaustive displacement of [-15,15] on the smallest image, I reduce the displacement size by 1.5 ([-15,15],[-10,10],[-7,7], etc.) for each larger image to speed up the exhaustive search. 
+        </p>
+        <h2>
+            Problems
+        </h2>
+        <p style="text-align: left;">
+            I implement an algorithm using sift features to match the three most prominent keypoints between two images. With three keypoints, I can transform one image such that its keypoints align with the keypoints of the other image. Ideally, this allows me to create affine transformations that are not just linear in the x, y- axis. This technique works on almost all the images, but occasionally, there will be keypoints that are incorrectly matched, producing a misaligned image.
+        </p>
+    </div>
+    <h2>
+        Results
+    </h2>
+    <p>
+        The left image is the input image we want to combine into RGB.
+        <br>
+        The middle image is the image we get if we directly overlay the three spliced images without any correction
+        <br>
+        The right image is the aligned RGB image from my proposed algorithm.
+    </p>
+    <h2>
+        Example Images
+    </h2>
+    <h3>
+        cathedral
+    </h3>
+    <br>
+    <img style="width: 7%" alt="orig cathedral" src="data_jpg/cathedral.jpg">
+    <img style="width: 20%" alt="direct overlay cathedral" src="direct_overlay_rgb/cathedral.jpg">
+    <img style="width: 20%;" alt="cathedral"  src="rgb/cathedral.jpg">
+    <p> 
+        <b> Green: (2, 5) Red:  (3, 12)</b>
+    </p>
+    <h3>
+        emir
+    </h3>
+    <img style="width: 7%;" alt="orig emir" src="data_jpg/emir.jpg">
+    <img style="width: 20%;" alt="direct overlay emir" src="direct_overlay_rgb/emir.jpg">
+    <img style="width: 20%;" alt="emir"  src="rgb/emir.jpg">
+    <p> 
+        <b> Green:  (24, 49) Red:  (40, 107)</b>
+    </p>
+    <h3>
+        icon
+    </h3>
+    <img style="width: 7%;" alt="orig icon" src="data_jpg/icon.jpg">
+    <img style="width: 20%" alt="direct overlay icon" src="direct_overlay_rgb/icon.jpg">
+    <img style="width: 20%;" alt="icon"  src="rgb/icon.jpg">
+    <p> 
+        <b> Green:  (16, 40) Red:  (23, 89)</b>
+    </p>
+    <h3>
+        lady
+    </h3>
+    <img style="width: 7%;" alt="orig lady" src="data_jpg/lady.jpg">
+    <img style="width: 20%" alt="direct overlay lady" src="direct_overlay_rgb/lady.jpg">
+    <img style="width: 20%;" alt="lady"  src="rgb/lady.jpg">
+    <p> 
+        <b> Green:  (10, 56) Red:  (13, 120)</b>
+    </p>
+    <h3>
+        melons
+    </h3>
+    <img style="width: 7%;" alt="orig melons" src="data_jpg/melons.jpg">
+    <img style="width: 20%" alt="direct overlay melons" src="direct_overlay_rgb/melons.jpg">
+    <img style="width: 20%;" alt="melons"  src="rgb/melons.jpg">
+    <p> 
+        <b> Green:  (10, 80) Red:  (13, 176))</b>
+    </p>
+    <h3>
+        monastery
+    </h3>
+    <img style="width: 7%;" alt="orig monastery" src="data_jpg/monastery.jpg">
+    <img style="width: 20%" alt="direct overlay monastery" src="direct_overlay_rgb/monastery.jpg">
+    <img style="width: 20%;" alt="monastery"  src="rgb/monastery.jpg">
+    <p> 
+        <b> Green:  (2, -3) Red:  (2, 3)</b>
+    </p>
+    <h3>
+        nativity
+    </h3>
+    <img style="width: 7%;" alt="orig nativity" src="data_jpg/nativity.jpg">
+    <img style="width: 20%" alt="direct overlay nativity" src="direct_overlay_rgb/nativity.jpg">
+    <img style="width: 20%;" alt="nativity"  src="rgb/nativity.jpg">
+    <p> 
+        <b>  Green:  (1, 3) Red:  (0, 8)</b>
+    </p>
+    <h3>
+        onion_church
+    </h3>
+    <img style="width: 7%;" alt="orig onion_church" src="data_jpg/onion_church.jpg">
+    <img style="width: 20%" alt="direct overlay onion_church" src="direct_overlay_rgb/onion_church.jpg">
+    <img style="width: 20%;" alt="onion_church"  src="rgb/onion_church.jpg">
+    <p> 
+        <b> Green:  (24, 52) Red:  (35, 107)</b>
+    </p>
+    <h3>
+        three_generations
+    </h3>
+    <img style="width: 7%;" alt="orig three_generations" src="data_jpg/three_generations.jpg">
+    <img style="width: 20%" alt="direct overlay three_generations" src="direct_overlay_rgb/three_generations.jpg">    
+    <img style="width: 20%;" alt="three_generations"  src="rgb/three_generations.jpg">
+    <p> 
+        <b> Green:  (16, 56) Red:  (12, 115)</b>
+    </p>
+    <h3>
+        tobolsk
+    </h3>
+    <img style="width: 7%;" alt="orig tobolsk" src="data_jpg/tobolsk.jpg">
+    <img style="width: 20%" alt="direct overlay tobolsk" src="direct_overlay_rgb/tobolsk.jpg">
+    <img style="width: 20%;" alt="tobolsk"  src="rgb/tobolsk.jpg">
+    <p> 
+        <b> Green:  (3, 3) Red:  (3, 6)</b>
+    </p>
+    <h3>
+        train
+    </h3>
+    <img style="width: 7%;" alt="orig train" src="data_jpg/train.jpg">
+    <img style="width: 20%" alt="direct overlay train" src="direct_overlay_rgb/train.jpg">
+    <img style="width: 20%;" alt="train"  src="rgb/train.jpg">
+    <p> 
+        <b> Green:  (0, 44) Red:  (29, 85)</b>
+    </p>
+    <h3>
+        village
+    </h3>
+    <img style="width: 7%;" alt="orig village" src="data_jpg/village.jpg">
+    <img style="width: 20%" alt="direct overlay village" src="direct_overlay_rgb/village.jpg">
+    <img style="width: 20%;" alt="village"  src="rgb/village.jpg">
+    <p> 
+        <b> Green:  (11, 65) Red:  (21, 137) </b>
+    </p>
+    <h3>
+        workshop
+    </h3>
+    <img style="width: 7%;" alt="orig workshop" src="data_jpg/workshop.jpg">
+    <img style="width: 20%" alt="direct overlay workshop" src="direct_overlay_rgb/workshop.jpg">
+    <img style="width: 20%;" alt="workshop"  src="rgb/workshop.jpg">
+    <p> 
+        <b> Green:  (-1, 53) Red:  (-12, 102)</b>
+    </p>
+
+    <h2>
+        Other Images from the Prokudin-Gorskii collection
+    </h2>
+    <h3>
+        image1
+    </h3>
+    <br>
+    <img style="width: 7%" alt="orig image1" src="data_jpg/image1.jpg">
+    <img style="width: 20%" alt="direct overlay image1" src="direct_overlay_rgb/image1.jpg">
+    <img style="width: 20%;" alt="image1"  src="rgb/image1.jpg">
+    <p> 
+        <b> Green:  (26, 52) Red:  (35, 113)</b>
+    </p>
+    <h3>
+        image2
+    </h3>
+    <br>
+    <img style="width: 7%" alt="orig image2" src="data_jpg/image2.jpg">
+    <img style="width: 20%" alt="direct overlay image2" src="direct_overlay_rgb/image2.jpg">
+    <img style="width: 20%;" alt="image2"  src="rgb/image2.jpg">
+    <p> 
+        <b> Green:  (16, 19) Red:  (16, 61)</b>
+    </p>
+    <h3>
+        image3
+    </h3>
+    <br>
+    <img style="width: 7%" alt="orig image3" src="data_jpg/image3.jpg">
+    <img style="width: 20%" alt="direct overlay image3" src="direct_overlay_rgb/image3.jpg">
+    <img style="width: 20%;" alt="image3"  src="rgb/image3.jpg">
+    <p> 
+        <b> Green:  (26, 62) Red:  (35, 121)</b>
+    </p>
+    <h2>
+        Bells and Whistles
+    </h2>
+    <div style="width: 60%;">
+    <p style="text-align: left;">
+        I created an algorithm that uses sift features to match 3 keypoints between two images. With 3 keypoints, an affine transformation can be made to align the keypoints from one image to the other. The images below compare the result of the using exhaustive displacement search + canny filters (left) and the result of using sift features to align the images (right). 
+        <br>
+        <br>
+        As you can see, if the 3 keypoints found match between different color spaces, the images are aligned just as well as exhaustive displacement search + canny filters. However, as in the case with "emir", the keypoints did not match and the image is misaligned.
+    </p>
+    </div>
+    <div style="width: 80%;">
+    <img style="width: 20%" alt="cathedral" src="rgb/cathedral.jpg">
+    <img style="width: 20%" alt="sift cathedral" src="sift/cathedral.jpg">
+    <img style="width: 20%" alt="emir" src="rgb/emir.jpg">
+    <img style="width: 20%" alt="sift emir" src="sift/emir.jpg">
+    <img style="width: 20%" alt="icon" src="rgb/icon.jpg">
+    <img style="width: 20%" alt="sift icon" src="sift/icon.jpg">
+    <img style="width: 20%" alt="image1" src="rgb/image1.jpg">
+    <img style="width: 20%" alt="sift image1" src="sift/image1.jpg">
+    <img style="width: 20%" alt="image2" src="rgb/image2.jpg">
+    <img style="width: 20%" alt="sift image2" src="sift/image2.jpg">
+    <img style="width: 20%" alt="image3" src="rgb/image3.jpg">
+    <img style="width: 20%" alt="sift image3" src="sift/image3.jpg">
+    <img style="width: 20%" alt="lady" src="rgb/lady.jpg">
+    <img style="width: 20%" alt="sift lady" src="sift/lady.jpg">
+    <img style="width: 20%" alt="melons" src="rgb/melons.jpg">
+    <img style="width: 20%" alt="sift melons" src="sift/melons.jpg">
+    <img style="width: 20%" alt="monastery" src="rgb/monastery.jpg">
+    <img style="width: 20%" alt="sift monastery" src="sift/monastery.jpg">
+    <img style="width: 20%" alt="nativity" src="rgb/nativity.jpg">
+    <img style="width: 20%" alt="sift nativity" src="sift/nativity.jpg">
+    <img style="width: 20%" alt="onion_church" src="rgb/onion_church.jpg">
+    <img style="width: 20%" alt="sift onion_church" src="sift/onion_church.jpg">
+    <img style="width: 20%" alt="three_generations" src="rgb/three_generations.jpg">
+    <img style="width: 20%" alt="sift three_generations" src="sift/three_generations.jpg">
+    <img style="width: 20%" alt="tobolsk" src="rgb/tobolsk.jpg">
+    <img style="width: 20%" alt="sift tobolsk" src="sift/tobolsk.jpg">
+    <img style="width: 20%" alt="train" src="rgb/train.jpg">
+    <img style="width: 20%" alt="sift train" src="sift/train.jpg">
+    <img style="width: 20%" alt="village" src="rgb/village.jpg">
+    <img style="width: 20%" alt="sift village" src="sift/village.jpg">
+    <img style="width: 20%" alt="workshop" src="rgb/workshop.jpg">
+    <img style="width: 20%" alt="sift workshop" src="sift/workshop.jpg">
+    </div>
+</center>
+ 
+
+<!-- <body>
+    <header>dsafdsa</header>
+    fdsa
+  hi hi 
+<br>
+<img style="width: 
+20
+%; 
+width: 221
+%;" alt="cathedral 2" src="images/cathedral2.jpg">
+<img style="width: 
+20
+%; 
+width: 221
+%;" alt="cathedral 1" src="images/cathedral1.jpg">
+
+<br>
+<img style="width: 20%;" alt="emir 16" src="images/emir16.jpg">
+<img style="width: 20%;" alt="emir 8" src="images/emir8.jpg">
+<img style="width: 20%;" alt="emir 4" src="images/emir4.jpg">
+<img style="width: 20%;" alt="emir 2" src="images/emir2.jpg">
+<img style="width: 20%;" alt="emir 1" src="images/emir1.jpg"> -->
+ <!--  <table style="text-align: left; width: 100%; 
+width: 50%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody align="center">
+    <tr align="right">
+      <td style="vertical-align: top;"><img style="width: 
+20
+%; 
+width: 221
+%;" alt="Track picture" src="graphics/track.jpg"><br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">I love to run. For my events, I do the 100 meter, 200 meter, 4x100 meter relay, long jump, and triple jump.<br>
+      </td>
+    </tr>
+    <tr align="right">
+      <td style="vertical-align: top;">Badminton is one of my favorite sports and contrary to popular belief, it is actually a really tiring and demanding sport.<br>
+      </td>
+      <td style="vertical-align: top; text-align: left;"><img style="width: 
+20
+%; 
+width: 219
+%;" alt="Badminton birdie" src="graphics/badminton.jpg"><br>
+      </td>
+    </tr>
+    <tr align="center">
+      <td style="vertical-align: top; text-align: right;"><img style="width: 
+20
+%; 
+width: 348
+%;" alt="Kickboxing" src="graphics/kickboxing.gif"><br>
+      </td>
+      <td style="vertical-align: top; text-align: left;">I have recently started kickboxing and jiujitsu and have really gotten into watching MMA and boxing.<br>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+</body>
+</html>

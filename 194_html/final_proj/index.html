@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/proj3/cs194-26-ach/ -->
+<html>
+
+<head>
+  <title>Jeffrey Zhang</title>
+  <meta name="description" content="website description" />
+  <meta name="keywords" content="website keywords, website keywords" />
+  <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine&amp;v1" />
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz" />
+  <link rel="stylesheet" type="text/css" href="../../style/style.css" />
+</head>
+
+<body>
+  <div id="main">
+    <div id="header">
+      <div id="logo">
+        <h1>Jeffrey Zhang<a href="#"></a></h1>
+      </div>
+      <div id="menubar">
+        <ul id="menu">
+          <!-- put class="current" in the li tag for the selected page - to highlight which page you're on -->
+          <li><a href="../../index.html">Home</a></li>
+          <!-- <li><a href="examples.html">Examples</a></li> -->
+          <li><a href="../../research.html">Research</a></li>
+          <li class="current"><a href="../../projects.html">Projects</a></li>
+          <li><a href="../../hobbies.html">Hobbites/Interests</a></li>
+        </ul>
+      </div>
+    </div>
+    <div id="site_content"><span>&#8592;</span>
+        <a href='../../194.html'>Back to 194 Projects</a>
+      <div id="content">
+<html class="gr__inst_eecs_berkeley_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><style>
+    p    {font-size: 125%;}
+    h1    {font-size: 200%;}
+    h2    {font-size: 175%;}
+    h3    {font-size: 150%;}
+</style>
+  
+    </head><body style="padding-left: 5%; width: 90%; background-color: #EEE;" data-gr-c-s-loaded="true" class="vsc-initialized"><center>
+        <h1 id="top">Final Projects!</h1>
+        <h3>Jeffrey Zhang</h3>
+        <h4>CS194-26 | Professor A. Efros</h4>
+    </center>
+
+<center><a href="#proj1">Project 1: Gradient-Domain Fusion</a> | <a href="#proj2">Project 2: Image Quilting</a></center>
+<h1 id="proj1">Project 1: Gradient-Domain Fusion</h1>
+
+    <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+          In this project, I will stitch and blend images together seamlessly using gradients and least squares optimizations. This project is based on Perez et al.'s 2003 <a href="http://www.cs.brown.edu/courses/csci1950-g/asgn/proj2/resources/PoissonImageEditing.pdf">paper</a> on poisson and mixed-gradient blending.
+        </p>
+    </section>
+
+    <section>
+        <h2>Toy Problem</h2>
+        <hr>
+        <p>
+          To give an introduction into using gradients to reconstruct and manipulate images, I will first begin with a toy problem by reconstructing an image using one pixel value and its gradients. Finding the gradients of an image in the x and y direction will give me the exact differences between each pixel and its neighbors. Thus, storing all these gradients, I can use one pixel to find the correct pixel intensities for all remaining pixel values!
+        </p>
+        <p>
+          We will minimize the differences in the gradients between the resulting image and the original image by running least squares on the two values. We will set up a least square matrix to solve the pixels in our resulting image. Each pixel will have 2 rows in our matrix that represent minimizing the difference between its gradients in the x and y direction. Finally, we use python's least squared solver to solve for our desired image. Below demonstrates that our solved image is identical to the original image!
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Original (left) vs Solved Image (right)</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/toy.png" style="height: 450px;"></th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Poisson Blending</h2>
+        <hr>
+        <p>
+          Poisson blending is a technique that allows me to seamlessly blend a patch of an image into a background image. The technique looks to minimize the differences in the gradients in the original image with the resulting image as well as minimize the gradients of the resulting image with its gradients with the neighboring pixels. The least squares equation we wish to solve is:
+        </p>
+        <center><img src="./index_files/poissonblend_eq.png"></center>
+        <p> 
+          The problem is as follows: given the pixel intensities of the source image "s" and of the target image "t", we want to solve for new intensity values "v" within the source region "S". Let N_i be the set of 4 neighboring pixels (left, right, above, below) to i in S. Again, using python's least squares solver, we can solve for the pixels in our new image! Additionally, I used scipy's sparse matricies and functions to drastically speed up computation as well as reduce the amount of memory it takes to store my matrices for the least squares calculation.
+        </p>
+        <h3>
+          Poisson Image Example
+        </h3>
+        <p>
+            The following images show the effect of the poisson blend. This cliff jumper somehow missed the gigantic alligator swimming in the lake below him.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Background Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source.jpg"  style="width: 100%;"></th>
+                <th><img src="./index_files/background.jpg"  style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Unblended Image</th>
+                <th>Poisson Blended Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/stitched.jpg"  style="width: 100%;"> </th>
+                <th><img src="./index_files/blended.png"  style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+        <h3>
+          Other Examples
+        </h3>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Unblended Image</th>
+                <th>Poisson Blended Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/image_orig.jpg" style="width: 100%;"> </th>
+                <th><img src="./index_files/image.png"  style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Unblended Image</th>
+                <th>Poisson Blended Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/image1_orig.jpg" style="width: 100%;"> </th>
+                <th><img src="./index_files/image1.png"  style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Unblended Image</th>
+                <th>Poisson Blended Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/image2_orig.jpg"  style="width: 100%;"> </th>
+                <th><img src="./index_files/stitched.png"  style="width: 100%;"> </th>
+                <th><img src="./index_files/image2.jpg"  style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+        <h3>
+          Failures
+        </h3>
+        <p>
+          This poisson blending technique works best when the entire object is cropped out and when the target background has a smooth or similar texture to the source image you are trying to stitch onto it. For instance, when I blend the hiker onto the snow, there is an obvious discontinuinty in texture between the complicated background of the hiker and the smooth white snow. Furthermore, the fact that her body is cut off adds to the abnormalities. 
+        </p>
+        <center>
+            <img src="./index_files/failure1.png" style="height: 450px;">
+        </center>
+        <p>
+          The next example actually blends the images very seamlessly, however, the large difference in background color between the two images causes the seagulls to turn blue.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Unblended Image</th>
+                <th>Poisson Blended Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/failure_orig.jpg" style="width: 100%;"> </th>
+                <th><img src="./index_files/failure.png" style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+        <h2>Mixed Gradients</h2>
+        <hr>
+        <p>
+          Rather than blending the cut of a source image into a background image seamlessly, we want to instead maintain the integrity of the stronger gradient between the source and the background image. This effect allows us to keep the most information from both source and background images. Here we want to change the second term from our poisson blending equation to get:
+        </p>
+        <center><img src="./index_files/textureblend_eq.png"></center>
+        <p>
+          Here d_ij is the gradient from the source or the target image with larger magnitude.
+        </p>
+        <h3>
+          Mixed Gradient Example
+        </h3>
+        <p>
+            The following images show the effect of the mixed gradient blending. The word "words" is pasted onto a brick wall emulating either paint or spray paint. 
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Background Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source(1).jpg" style="width: 100%;"></th>
+                <th><img src="./index_files/background(1).jpg" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Direct Overlap</th>
+                <th>Mixed Gradient Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/image_orig(1).jpg" style="width: 100%;"> </th>
+                <th><img src="./index_files/image(1).png" style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+        <h3>
+          Comparison to Poisson Blending
+        </h3>
+        <p>
+          You can see that mixed gradient mixing works much better maintaining the integrity of the content as well as the background of the original background image by choosing to minimize the differences in the larger gradients.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Poisson Blended Image</th>
+                <th>Mixed Gradient Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/image_poisson.png" style="width: 100%;"> </th>
+                <th><img src="./index_files/image(1).png" style="width: 100%;"> </th>
+            </tr>
+        </tbody></table>
+    </section>
+
+    <section>
+    <h2>Bells and Whistles - Color2Gray</h2>
+    <hr>
+        <p>
+            The standard conversion from rgb to gray uses the direct intensities of each color channel in the following equation:  gray = 0.2989*red + 0.5870*green + 0.1140*blue. Thus, using only intensities for the conversion might lose information like the following example:
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Original Image</th>
+                <th>Python's RGB2Gray</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/colorblind.png" style="height: 350px;"> </th>
+                <th><img src="./index_files/rgb2gray.png" style="height: 350px;"> </th>
+            </tr>
+        </tbody></table>
+        <p>
+          When we convert the RGB to HSV, notice that the S channel (saturation), defines the contrast very clearly. 
+        </p>
+        <center>
+          <img src="./index_files/saturation.png" style="height: 350px;"> 
+        </center>
+        <p>
+          Thus, we can use the S channel as our source image to capture the "35" and python's gray image as the background for the background gray conversion. Running the code for mixed gradient on these two images as our source and background, we get a color2gray conversion that maintains the contrast information!
+        </p>
+        <center>
+          <img src="./index_files/result.png" style="height: 350px;"> 
+        </center>
+    </section>
+
+<a href="https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/projFinalUndergrad/cs194-26-ach/#top">Go to top</a>
+<hr>
+<h1 id="proj2">Project 2: Image Quilting</h1>
+
+    <section>
+        <h2>Overview</h2>
+        <hr>
+        <p>
+          In this project, I will create larger images by quilting patterns from a source image. The idea of the project is taken from this 2001 <a href="http://www.eecs.berkeley.edu/Research/Projects/CS/vision/papers/efros-siggraph01.pdf">paper</a> by Efros and Freeman.
+        </p>
+    </section>
+
+    <section>
+        <h2>Algorithm Comparisons</h2>
+        <hr>
+        <p>
+          The first method is to randomly sample patches from the texture I want to replicate. This method is the easiest and quickest but returns the worst results as shown below. The randomly selected patches are not seamlessly put together.
+        </p>
+        <p>
+          The second method is to minimize the difference in overlap between patches already placed down. The algorithm begins by choosing the top left patch randomly and using that set patch, we can minimize the differences between the remaining patches to be set.
+        </p>
+        <p>
+          The final method combineds overlapping patches with a seam finding algorithm. This finds the best cut between the two overlapping patches that creates the smoothest transition from one patch to the next. You can see in the comparisons below that this method creates the most convincing texture quilting result.
+        </p>
+        <center>
+            <p> Original Image </p>
+            <img src="./index_files/source(2).jpg" style="width: 200px;">
+        </center>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Randomly Sampled Textures</th>
+                <th>Overlapping Patches</th>
+                <th>Overlapping Patches + Seam Finding</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/random.png" style="width: 100%;"></th>
+                <th><img src="./index_files/overlap.png" style="width: 100%;"></th>
+                <th><img src="./index_files/seam.png" style="width: 100%;"></th>
+            </tr>
+        </tbody></table>
+    </section>
+    <section>
+        <h2>Implementation of Algorithms</h2>
+        <hr>
+        <h3> Random Patches</h3>
+        <p>
+          This is the simplest method to implement and requires randomly sampling patches from the texture image I want to quilt together and stitching them together.
+        </p>
+        <h3> Overlapping Patches </h3>
+        <p>
+          To implement overlapping patches, we begin by randomly sampling a texture patch for the top left corner. We now want to build off that patch by minimizing the sum of squared differences between that patch's overlap with its adjacent patches (the amount of overlap is manually set). To find the patch that works best with the patches we already have, we run the SSD of the overlap region across all possible patches in the texture image and find the patch that has the lowest SSD. 
+        </p>
+        <p>
+          There will be two overlapping regions for patches not on the sides of the image we are creating. Thus, we must find the patch that fits best with both those overlapping regions by adding the SSD we get for each.
+        </p>
+        <h3> Seam Finding </h3>
+        <p>
+          The final method combines overlapping patches with seam finding. When compiling patches together, we need to define a way to determine which pixels to use between the two patches in the overlapping regions. One way to determine this cut is by finding a seam down the overlapping region that contains the last amount of information (energy). Energy is defined as the gradient of a pixel in the x and y directions (high frequency regions will have higher energy). An example of such a cut is shown below. 
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Left patch</th>
+                <th>Right patch</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/left.png" style="height: 300px;"></th>
+                <th><img src="./index_files/right.png" style="height: 300px;"></th>
+            </tr>
+            <tr>
+                <th>Seam</th>
+                <th>Combined</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/seam(1).png" style="height: 300px;"></th>
+                <th><img src="./index_files/combine.png" style="height: 300px;"></th>
+            </tr>
+        </tbody></table>
+        <h3>
+          Difficulties
+        </h3>
+        <p> 
+          My largest difficulty by far was trying to run SSD efficiently. My code originally had nested for loops interating through all possible patch locations in the texture, which is not efficient. I tried numerous different methods to speed up my code including vectorizing code using numpy and using scipy's correlate function to solve ssd = correlate(image^2, mask) - 2*correlate(image, patch) + np.sum(patch^2). In the end, none of my tweaks came close to the speed of cv2's SSD feature matching. My code includes my personal feature matching function, which returns identical results to cv2's function, but runs exponentially slower (texture synthesis on feynman took around 10 minutes with my function, but takes ~20-30 seconds using cv2's function).
+        </p>
+    </section>
+    <section>
+        <h2>Quilting Texture Synthesis Results</h2>
+        <hr>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Quilted Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source1.jpg" style="height: 200px;"></th>
+                <th><img src="./index_files/example1.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Quilted Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source2.bmp" style="height: 200px;"></th>
+                <th><img src="./index_files/example2.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Quilted Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source3.jpg" style="height: 200px;"></th>
+                <th><img src="./index_files/example3.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Quilted Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source4.jpg" style="height: 200px;"></th>
+                <th><img src="./index_files/example4.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Source Image</th>
+                <th>Quilted Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/source(2).jpg" style="height: 200px;"></th>
+                <th><img src="./index_files/seam.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <p>
+          Most of the image quilting results look quite good, but obviously still show some flaws. The image quilting of the text could pass off as text from another language, but unfortunately no longer looks like English. The yogurt and the brick results probably look the best because there is more randomness in the textures, which allows for greater room for error while still looking good. There are some seams in the rocks, but only are noticeable upon closer inspection. Finally, the clouds seem to be repeat a similar pattern, which makes it look less natural, but still looks decent nonetheless.
+        </p>
+    </section>
+
+    <section>
+        <h2>Texture Transfer</h2>
+        <hr>
+        <p>
+          The idea of texture transfer is to use patches from a texture to best recreate another image. The implementation of texture transfer requires finding the texture that has the smallest SSD with the pixel intensities of the original image. Additionally, we want the patches to be seamless and we also want to minimize the SSD with overlapping patches. How seamless and how accurate the texture represents the original image pixels need to be traded off when determining the patch that has the lowest SSD. We can do this simply by setting the error for each patch as alpha * SSD(overlapping regions) + (1-alpha) * SSD(pixels of patch vs original image) and changing alpha to our liking. 
+        </p>
+        <h3>
+          Texture Transfer Examples
+        </h3>
+        <p>
+            The following images show the effect of texture transfer. The image of Feynman is recreated using the textures of the sketch and the beautiful scenery is recreated with the textures from an oil painting.
+        </p>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Texture Image</th>
+                <th>Original Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/texture.jpg" style="height: 200px;"></th>
+                <th><img src="./index_files/image.jpg" style="height: 400px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Resulting Image (alpha set to 0.1)</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/result(1).png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Texture Image</th>
+                <th>Original Image</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/texture1.jpg" style="height: 200px;"> </th>
+                <th><img src="./index_files/image1.jpg" style="height: 400px;"> </th>
+            </tr>
+        </tbody></table>
+        <table align="center" style="width: 95%;">
+            <tbody><tr>
+                <th>Resulting Image (alpha set to 0.2)</th>
+            </tr>
+            <tr>
+                <th><img src="./index_files/result1.png" style="height: 500px;"></th>
+            </tr>
+        </tbody></table>
+
+    </section>
+
+    <section>
+    <h2>Bells and Whistles - Personal Implementation of Seam Finding</h2>
+    <hr>
+        <p>
+          Instead of using the provided cut.m files for seam finding, I made some modifications to my seam carving code from project 4 to work in this project as well. The algorithm suggested by Avidan and Shamir uses the energy values of each pixel to determine its importance to the image as a whole. One way of determining the energy for each pixel is by taking the sum of the absolute values of the pixel's gradient in the x and y directions. This derivative is found by convolving a [[-1,0,1],[-2,0,2],[-1,0,1]] matrix to the image for the x-direction, and a [[-1,-2,-1],[0,0,0],[1,2,1]] matrix for the y-direction. This effectively gives more weight towards pixels that are stronger edges. Because edges often define important features of an image, removing pixels that are not edges are less likely to affect the defining contents of an image. For color images, the energy for each pixel is determined by its gradient in its grayscale image.
+        </p>
+        <p> 
+          To find the seam, we want to find a path from the top of the region to the bottom where the total energy of that path is minimized. This can be done very efficiently with dynamic programming. Initializing the energy weights for the top pixels, we can iterate through every pixel and use the above 3 pixels (or 2 if the pixel is on a border) to determine which path has the lowest total energy.
+        </p>
+        <center><img src="./index_files/dp1.JPG" style="height: 350px;"></center>
+        <p>
+         Once we have assigned a value to every pixel, we simply take the pixel with the lowest value on the bottom row and that defines our smallest path. To retrieve other pixels in the path, take the minimum of the above 3 pixels.
+         </p><center><img src="./index_files/dp2.JPG" style="height: 350px;"></center>
+         <center><p>Image courtesy of CS194-26 PPT slides</p></center>
+        <p></p>
+    </section>
+
+<a href="https://inst.eecs.berkeley.edu/~cs194-26/fa16/upload/files/projFinalUndergrad/cs194-26-ach/#top">Go to top</a>
+
+
+<span id="sbmarwbthv5"></span></body></html>
