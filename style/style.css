@@ -5,13 +5,20 @@ html
 { margin: 0;
   padding: 0;}
 
+/*h1 { font-family: "Playfair Display"; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } */
+/*h3 { font-family: "Playfair Display"; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } */
+p { font-family: "Playfair Display"; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } 
+/*blockquote { font-family: "Playfair Display"; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } */
+/*pre { font-family: "Playfair Display"; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; }*/
+
 body
-{ font: normal .80em 'trebuchet ms', arial, sans-serif;
+{ font: normal .80em font-family: "Playfair Display"; 
   background: #F7F7F7 url(pattern.png) fixed;
   color: #555;}
 
 p
-{ padding: 0 0 20px 0;
+{ font-family: "Playfair Display"; 
+  padding: 0 0 20px 0;
   line-height: 1.5em;
   font-size: 107%;}
 
@@ -19,13 +26,13 @@ img
 { border: 0;}
 
 h1, h2, h3, h4, h5, h6 
-{ font: normal 250% 'Yanone Kaffeesatz', arial, sans-serif;
+{ font: normal 250% font-family: "Playfair Display";
   color: #444;
   margin: 0 0 15px 0;
   padding: 5px 0 5px 0;}
 
 h2
-{ font: normal 170% 'Yanone Kaffeesatz', arial, sans-serif;
+{ font: normal 170% font-family: "Playfair Display";
   color: #F14E23;  
   margin: 0;
   padding: 0 0 8px 0;}
@@ -38,12 +45,14 @@ h3
 h4, h5, h6
 { margin: 0;
   padding: 0 0 5px 0;
-  font: normal 100% arial, sans-serif;
+  font: normal 100%;
+  font-family: "Playfair Display";
   color: #F14E23;
   line-height: 1em;}
 
 h5, h6
-{ font: italic 95% arial, sans-serif;
+{ font: italic 95%;
+  font-family: "Playfair Display";
   color: #888;
   padding-bottom: 15px;}
 
@@ -107,8 +116,9 @@ ol li
   padding: 0 0 0px 10px;}
 
 #logo h1
-{ font: normal 350% 'Yanone Kaffeesatz', arial, sans-serif;
-  padding: 5px 0 0 17px;
+{ font: normal 550%;
+  font-family: "Playfair Display";
+  padding: 50px 0 0 17px;
   color: #555;
   float: left;}
 
@@ -124,7 +134,8 @@ ol li
 { float: right; 
   padding-right: 25px;
   text-align: right; 
-  font: 500% 'tangerine', arial; 
+  font: 500% 'tangerine';
+  font-family: "Playfair Display"; 
   color: #111;}
 
 #menubar
@@ -145,7 +156,8 @@ ul#menu li
   background: transparent;}
 
 ul#menu li a
-{ font: normal 170% 'Yanone Kaffeesatz', sans-serif;
+{ font: normal 170%;
+  font-family: "Playfair Display";
   text-decoration: none;
   color: #444;
   display: block; 
@@ -311,15 +323,19 @@ ul#menu li a:hover
   font: normal 140% 'Yanone Kaffeesatz', sans-serif;}
  
 table
-{ margin: 10px 0 30px 0;}
+{ margin: 10px 0 30px 0;
+font-family: "Playfair Display";
+}
 
 table tr th, table tr td
 { background: #F5F5F5;
+  font-family: "Playfair Display";
   color: #111;
   padding: 7px 4px;
   text-align: left;}
   
 table tr td
 { background: #FBFBFB;
+  font-family: "Playfair Display";
   color: #111;
   border-top: 1px solid #FFF;}
